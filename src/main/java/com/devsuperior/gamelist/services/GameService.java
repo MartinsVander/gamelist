@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service;
 import com.devsuperior.gamelist.dto.GameDTO;
 import com.devsuperior.gamelist.dto.GameMinDTO;
 import com.devsuperior.gamelist.entities.Game;
+import com.devsuperior.gamelist.projections.GameMinProjection;
 import com.devsuperior.gamelist.repositories.GameRepository;
-
-import jakarta.transaction.Transactional;
 // registrar como componente do sistema
 // essa classe devolve GameMinDTO
 @Service 
@@ -26,6 +25,14 @@ public class GameService {
 	// Usa a stram API mapear Lista Game para GameMinDTO
 		List<GameMinDTO> dtoList =result.stream().map(x-> new GameMinDTO(x)).toList();
 	 	return dtoList;
+	}
+	
+	public List<GameMinDTO> findByList(Long listId){
+		//repository
+		List<GameMinProjection> result = gameRepository.searchByList(listId);
+		
+		List<GameMinDTO> dtoL= result.stream().map(x-> new GameMinDTO(x)).toList();
+		return dtoL;
 	}
 	
 	// verificar @Transactional(readOnly = true)
